@@ -24,20 +24,21 @@ jobs:
 
       - name: Wait for Juice Shop
         run: |
+          - name: Wait for Juice Shop
           curl \
             --fail \
             --silent \
             --show-error \
-            --retry 30 \
-            --retry-delay 2 \
+            --retry 60 \
+            --retry-delay 3 \
             --retry-connrefused \
+            --retry-all-errors \
             http://127.0.0.1:3000/ \
             > /dev/null
-
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.15.0
-        with:
-          target: 'http://127.0.0.1:3000/'
+            - name: OWASP ZAP Baseline Scan
+              uses: zaproxy/action-baseline@v0.15.0
+              with:
+                target: 'http://127.0.0.1:3000/'
 
           # No showroom queremos primeiro mostrar
           # findings sem impedir a continuação.
