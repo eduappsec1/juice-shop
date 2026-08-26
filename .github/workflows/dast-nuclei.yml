@@ -1,12 +1,17 @@
 name: Nuclei - Vulnerability Scan
 
 on:
-    #schedule:
-      #- cron: '0 0 * * *'
-    workflow_dispatch:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'URL alvo para scan Nuclei'
+        required: true
+        default: 'https://silver-tribble-96v44prxj9x27vxw-3000.app.github.dev'
+
 permissions:
   contents: read
   security-events: write
+
 jobs:
   nuclei-scan:
     runs-on: ubuntu-latest
@@ -17,7 +22,7 @@ jobs:
         id: nuclei_scan
         uses: projectdiscovery/nuclei-action@v3
         with:
-          args: -u https://silver-tribble-96v44prxj9x27vxw-3000.app.github.dev
+          args: -u ${{ github.event.inputs.target_url }}
           
       - name: GitHub Workflow artifacts
         uses: actions/upload-artifact@v4
